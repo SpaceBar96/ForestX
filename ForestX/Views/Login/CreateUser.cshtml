@@ -1,0 +1,72 @@
+﻿@model DAL.User
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="login-box">
+    <div class="login-logo">
+        User Registration
+    </div>
+
+    <div class="login-box-body">
+        <p class="login-box-msg">Create a new user</p>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group has-feedback">
+                @Html.LabelFor(model => model.Name)
+
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="form-group has-feedback" id="Message">
+                @Html.LabelFor(model => model.Email)
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="form-group has-feedback">
+                @Html.LabelFor(model => model.Password)
+
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+
+        }
+        <hr class="sidebar-divider">
+        <div class="row">
+            <div class="col-md-7">
+                @Html.ActionLink("Log In", "Login")
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7">
+                @Html.ActionLink("Forget Password", "ForgetPass")
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var msg = "@ViewBag.Msg";
+        if (msg != "") {
+            var SetData = $("#Message");
+            var Data =
+                "<span class='text-danger'>" + msg + "</span>"
+            SetData.append(Data);
+        }
+    });
+</script>
