@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace EmailSender
         //User for sending email to new user for account activation
         public static void BuildEmailTemplateToNewUser(Guid id)
         {
+
             UserRepo objUserRepo = new UserRepo();
 
             string emailBody = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/EmailTemplate/") + "EmailTextUser" + ".cshtml");
@@ -24,6 +26,12 @@ namespace EmailSender
             emailBody = emailBody.ToString();
 
             BuildEmailTemplate("Your Account Is Successfully Activated", emailBody, userInfo.Email);
+        }
+
+        //sending email to user when forget password
+        public static void BuildEmailTemplateToForgetPass(Guid id, string email)
+        {
+            
         }
 
         public static void BuildEmailTemplate(string subjectText, string bodyText, string sendTo)
@@ -60,9 +68,9 @@ namespace EmailSender
             client.Host = "smtp.gmail.com";
             client.Port = 587;
             client.EnableSsl = true;
-            client.UseDefaultCredentials = false;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.Credentials = new System.Net.NetworkCredential("elvis.adam.lycan@gmail.com", "960126421Lvis");
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential("elvis.adam.lycan@gmail.com", "960126421Lvis");
             try
             {
                 client.Send(mail);

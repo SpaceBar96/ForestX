@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Confirm";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<br/><br/>
+
+<div class="login-box">
+    <div class="login-logo">
+        User Account Activation
+    </div>
+
+    <div class="login-box-body">
+        <p class="login-box-msg">Click to Verify</p>
+        <div class="alert alert-danger" id="previous">
+            <strong>Confirm the User Account - @ViewBag.NewUser</strong>
+            <input type="submit" class="btn btn-warning" value="Confirm" onclick="Verified()" />
+        </div>
+        <div class="alert alert-success" id="after" style="display:none">
+            <strong><span class="glyphicon glyphicon-ok"></span>The Account Is Active Now</strong>
+        </div>
+    </div>
+</div>
+
+<script>
+    var RedirectURL = '@Url.Action("Login", "Login")';
+    var RegisterURL = '@Url.Action("RegisterConfirm", "Login")';
+    function Verified() {
+        $.ajax({
+            type: "post",
+            url: RegisterURL,
+            data: { 'id': '@ViewBag.regID', },
+            success: function (msg) {
+                $("#previous").hide();
+                $("#after").show();
+                alert(msg);
+            }
+        })
+    }
+</script>

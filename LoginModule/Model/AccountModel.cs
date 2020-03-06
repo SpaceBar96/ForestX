@@ -32,7 +32,7 @@ namespace LoginModule.Model
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
-        public string Emali { get; set; }
+        public string Email { get; set; }
     }
 
     public class ResetPassModel

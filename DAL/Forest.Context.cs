@@ -26,5 +26,6 @@ namespace DAL
         }
     
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
     }
 }

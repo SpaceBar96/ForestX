@@ -110,5 +110,61 @@ namespace ForestX.Controllers
             var msg = "Your Email Is Verified!";
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+
+        //display the forget password page for user\
+        public ActionResult ForgetPass()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgetPass(ForgetPassModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                UserRepo objUserRepo = new UserRepo();
+                if (objUserRepo.CheckEmail(model.Email) != true)
+                {
+                    var temp = objUserRepo.GetCredentials(model.Email);
+                    EmailBuilder.BuildEmailTemplateToForgetPass(temp.UserID, temp.Email);
+                    string msg = "We have sent a reset password requiest to your email. Please check your email.";
+                    return RedirectToAction("Login", "Login", new { msg });
+                }
+                else
+                {
+                    string msg = "This user does not exist";
+                    ViewBag.Msg = msg;
+                    return View();
+                }
+            }
+            return View();
+        }
+
+        //display the reset password page for user to change their password here
+        public ActionResult ResetPass(Guid id)
+        {
+            ViewBag.forgetPassID = id;
+            return View();
+        }
+
+        //to store the new password and update in database
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPass(Guid id, ResetPassModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                UserRepo objUserRepo = new UserRepo();
+                LoginLogic logic = new LoginLogic();
+                string pass = logic.GenerateHash(model.Password);
+                objUserRepo.ChangePassword(id, pass);
+
+                var msg = "Your password has been reset";
+                return RedirectToAction("Login", "Login", new { msg });
+            }
+            return View();
+        }
     }
 }
