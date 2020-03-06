@@ -25,7 +25,7 @@ namespace EmailSender
             emailBody = emailBody.Replace("@ViewBag.ConfirmationLink", url);
             emailBody = emailBody.ToString();
 
-            BuildEmailTemplate("Your Account Is Successfully Activated", emailBody, userInfo.Email);
+            BuildEmailTemplate("ForestX Email Verification", emailBody, userInfo.Email);
         }
 
         //sending email to user when forget password
@@ -70,7 +70,7 @@ namespace EmailSender
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential("elvis.adam.lycan@gmail.com", "960126421Lvis");
+            client.Credentials = new NetworkCredential("elvis.adam.lycan@gmail.com", "9601216421Lvis");
             try
             {
                 client.Send(mail);

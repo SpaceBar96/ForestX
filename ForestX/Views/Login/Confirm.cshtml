@@ -13,7 +13,7 @@
 
     <div class="login-box-body">
         <p class="login-box-msg">Click to Verify</p>
-        <div class="alert alert-danger" id="previous">
+        <div @*class="alert alert-danger"*@ id="previous">
             <strong>Confirm the User Account - @ViewBag.NewUser</strong>
             <input type="submit" class="btn btn-warning" value="Confirm" onclick="Verified()" />
         </div>

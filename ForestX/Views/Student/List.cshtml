@@ -7,7 +7,7 @@
 
 
 <div class="container-fluid" style="margin-top:3%">
-    <input type="hidden" name="UserName" id="UserRole" value="@ViewBag.UserName" />
+    <input type="hidden" name="UserName" id="UserName" value="@ViewBag.UserName" />
     <div class="card shadow mb-5">
         <div class="card-header py-3">
             <h4 class="m-0 font-weight-bold text-primary">Student</h4>
@@ -23,8 +23,12 @@
                             <th>Email</th>
                             <th>Course</th>
                             <th>Department</th>
+                            @if (ViewBag.UserRole == "UserName")
+                            {
                             <th>Edit</th>
                             <th>Delete</th>
+                            }
+
                         </tr>
                     </thead>
                     <tbody id="SetStudentList">
@@ -47,13 +51,12 @@
                     <form id="form">
 
                         <fieldset id="SubmitForm">
-
                             @Html.HiddenFor(s => s.StudentID, new { @id = "StudentID" })
                             <div class="text-capitalize">
                                 <h6>Student Name</h6>
                             </div>
                             <div class="form-group">
-                                @Html.TextBoxFor(s => s.StudentName, new { @id = "StudentName", @class = "form-control", @placeholder = "Student Name*" })
+                                @Html.TextBoxFor(s => s.StudentName, new { @id = "StudentName", @class = "form-control", @placeholder = "Student Name" })
                                 <p id="NameError" style="color:red">Please enter student name*</p>
                                 @*@Html.ValidationMessageFor(s => s.ServerName, "", new { @class = "text-danger" })*@
                             </div>
@@ -61,7 +64,7 @@
                                 <h6>Email</h6>
                             </div>
                             <div class="form-group">
-                                @Html.TextAreaFor(s => s.StudentEmail, new { @id = "StudentEmail", @class = "form-control", @placeholder = "Student Email" })
+                                @Html.TextBoxFor(s => s.StudentEmail, new { @id = "StudentEmail", @class = "form-control", @placeholder = "Student Email" })
                                 <p id="EmailError" style="color:red">Please enter email*</p>
                             </div>
                             <div class="form-group">
@@ -87,16 +90,11 @@
                                 <a href="#" class="btn btn-block btn-danger" id="SaveStudentRecord">Save</a>
                             </div>
 
-
-
                         </fieldset>
-
-
                     </form>
                 </div>
             </div>
         </div>
-    </div>
 
     @*Create A PopUp Modal For DeleteConfirmation*@
 
@@ -118,52 +116,48 @@
         </div>
     </div>
 </div>
+</div>
 
 <script>
-                var StudentsURL = '@Url.Action("GetList", "Student")';
-                var GetSpecificStudentURL = '@Url.Action("GetStudentById", "Student")';
-                var SaveDataURL = '@Url.Action("SaveDataInDatabase", "Student")';
-                var DeleteDataURL = '@Url.Action("DeleteStudentRecord", "Student")';
-                var RedirectURL = '@Url.Action("List", "Student")';
+    var StudentsURL = '@Url.Action("GetList", "Student")';
+    var GetSpecificStudentURL = '@Url.Action("GetStudentById", "Student")';
+    var SaveDataURL = '@Url.Action("SaveDataInDatabase", "Student")';
+    var DeleteDataURL = '@Url.Action("DeleteStudentRecord", "Student")';
+    var RedirectURL = '@Url.Action("List", "Student")';
 
-                //$("#LoadingStatus").html("Loading....");
-                $.get(StudentsURL, null, DataBind);
-                function DataBind(StudentList) {
-                    var SetData = $("#SetStudentList");
-                    var name = $("#UserName").val();
-                    for (var i = 0; i < StudentList.length; i++) {
-                        var count = i + 1;
-                        var Data = "<tr class='row_" + StudentList[i].StudentName + "'>" +
-                            "<td>" + count + "</td>" +
-                            "<td>" + StudentList[i].StudentName + "</td>" +
-                            "<td>" + StudentList[i].Email + "</td>" +
-                            "<td>" + StudentList[i].Course + "</td>" +
-                            "<td>" + StudentList[i].Department + "</td>" +
-                            "<td>" + "<a href='#' class='btn btn-warning' onclick=\"EditStudentRecord('" + StudentList[i].StudentID + "')\" >Edit</span></a>" + "</td>" +
-                            "<td>" + "<a href='#' class='btn btn-danger' onclick=\"DeleteStudentRecord('" + StudentList[i].StudentID + "')\">Delete</span></a>" + "</td>" +
-                            "</tr>";
+     //$("#LoadingStatus").html("Loading....");
+    $.get(StudentsURL, null, DataBind);
+    function DataBind(StudentList) {
+        var SetData = $("#SetStudentList");
+        var name = $("#UserName").val();
+        for (var i = 0; i < StudentList.length; i++) {
+            var count = i + 1;
+            var Data = "<tr class='row_" + StudentList[i].StudentName + "'>" +
+                "<td>" + count + "</td>" +
+                "<td>" + StudentList[i].StudentName + "</td>" +
+                "<td>" + StudentList[i].StudentEmail + "</td>" +
+                "<td>" + StudentList[i].Course + "</td>" +
+                "<td>" + StudentList[i].Department + "</td>"
 
-                        //if (role == "Admin") {
-                        //    Data = Data + "<td>" + "<a href='#' class='btn btn-warning' onclick=\"EditServerRecord('" + ServerList[i].ServerID + "')\" >Edit</span></a>" + "</td>" +
-                        //        "<td>" + "<a href='#' class='btn btn-danger' onclick=\"DeleteServerRecord('" + ServerList[i].ServerID + "')\">Delete</span></a>" + "</td>" +
-                        //        "</tr>";
+            if (name == null) {
+               Data = Data + "<td>" + "<a href='#' class='btn btn-warning' onclick=\"EditStudentRecord('" + StudentList[i].StudentID + "')\" >Edit</span></a>" + "</td>" +
+                    "<td>" + "<a href='#' class='btn btn-danger' onclick=\"DeleteStudentRecord('" + StudentList[i].StudentID + "')\">Delete</span></a>" + "</td>" +
+                    "</tr>";
 
-                        //}
-                        //else {
-                        //    Data = Data +
-                        //        //"<th>" + "" + "</th>" +
-                        //        //"<th>" + "" + "</th>" +
-                        //        "</tr >"
-                        //}
-                        SetData.append(Data);
-                        //$("#LoadingStatus").html(" ");
+            }
+            else {
+            Data = Data +
+                  //"<th>" + "" + "</th>" +
+                  //"<th>" + "" + "</th>" +
+                 "</tr >"
+            }
+            SetData.append(Data);
+            //$("#LoadingStatus").html(" ");
 
-                    }
+        }
 
-                    $("#ddataTable").DataTable();
-                }
-
-
+        $("#ddataTable").DataTable();
+    }
 
 
                 //Show The Popup Modal For Add New Student

@@ -77,7 +77,7 @@ namespace ForestX.Controllers
                     model.Password = logic.GenerateHash(model.Password);
                     user.SaveAtLogin(model);
                     EmailBuilder.BuildEmailTemplateToNewUser(model.UserID);
-                    string msg = "An account activation request has been sent to the user";
+                    string msg = "An account activation request has been sent to your email";
                     return RedirectToAction("Login", "Login", new { msg });
                 }
                 else

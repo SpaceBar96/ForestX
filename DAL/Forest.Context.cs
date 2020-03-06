@@ -27,5 +27,7 @@ namespace DAL
     
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<Menu> Menus { get; set; }
+        public virtual DbSet<MenuAccess> MenuAccesses { get; set; }
     }
 }
