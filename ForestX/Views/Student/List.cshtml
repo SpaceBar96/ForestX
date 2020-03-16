@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Student";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -23,7 +23,7 @@
                             <th>Email</th>
                             <th>Course</th>
                             <th>Department</th>
-                            @if (ViewBag.UserRole == "UserName")
+                            @if (ViewBag.UserName != null)
                             {
                             <th>Edit</th>
                             <th>Delete</th>
@@ -68,6 +68,7 @@
                                 <p id="EmailError" style="color:red">Please enter email*</p>
                             </div>
                             <div class="form-group">
+                                <h6>Course</h6>
                                 @Html.DropDownListFor(s => s.Course, new List<SelectListItem>
                            {
                                new SelectListItem {Text="Computer Science", Value="Computer Science"},
@@ -77,6 +78,7 @@
                                 <p id="CourseError" style="color:red">Please enter course</p>
                             </div>
                             <div class="form-group">
+                                <h6>Department</h6>
                                 @Html.DropDownListFor(s => s.Department, new List<SelectListItem>
                             {
                                 new SelectListItem {Text="FOET", Value="FOET"},
@@ -139,9 +141,9 @@
                 "<td>" + StudentList[i].Course + "</td>" +
                 "<td>" + StudentList[i].Department + "</td>"
 
-            if (name == null) {
-               Data = Data + "<td>" + "<a href='#' class='btn btn-warning' onclick=\"EditStudentRecord('" + StudentList[i].StudentID + "')\" >Edit</span></a>" + "</td>" +
-                    "<td>" + "<a href='#' class='btn btn-danger' onclick=\"DeleteStudentRecord('" + StudentList[i].StudentID + "')\">Delete</span></a>" + "</td>" +
+            if (name != null) {
+               Data = Data + "<td>" + "<a href='#' class='btn btn-warning' onclick=\"EditStudentRecord('" + StudentList[i].StudentName + "')\" >Edit</span></a>" + "</td>" +
+                    "<td>" + "<a href='#' class='btn btn-danger' onclick=\"DeleteStudentRecord('" + StudentList[i].StudentName + "')\">Delete</span></a>" + "</td>" +
                     "</tr>";
 
             }
@@ -177,7 +179,7 @@
                 //Show The Popup Modal For Edit Student Record
 
                 function EditStudentRecord(StudentID) {
-                    var url = GetSpecificStudentURL + "?StudentId=" + StudentID;
+                    var url = GetSpecificStudentURL + "?StudentID=" + StudentID;
                     $("#ModalTitle").html("Update Student Record");
                     $("#MyModal").modal();
                     $.ajax({
@@ -255,7 +257,7 @@
                     var StudentID = $("#StudentID").val();
                     $.ajax({
                         type: "POST",
-                        url: DeleteDataURL+ "?StudentId=" + StudentID,
+                        url: DeleteDataURL+ "?StudentID=" + StudentID,
                         success: function (result) {
                             $("#DeleteConfirmation").modal("hide");
                             window.location.href = RedirectURL;//"/Student/List";

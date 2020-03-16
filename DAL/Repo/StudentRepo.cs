@@ -20,7 +20,7 @@ namespace DAL.Repo
             List<StudentDetails> objStudent = new List<StudentDetails>();
 
             objStudent = (from s in Context.Students
-                          where s.StudentEmail == null
+                          where s.StudentEmail != null
 
                           select new
                           {
@@ -70,7 +70,7 @@ namespace DAL.Repo
 
         public void Update(Guid id, Student update)
         {
-            Student student = (from c in Context.Students where c.StudentID == id select c).FirstOrDefault();
+            Student student = (from c in Context.Students where c.StudentID ==  id select c).FirstOrDefault();
 
             student.StudentName = update.StudentName;
 
@@ -81,6 +81,20 @@ namespace DAL.Repo
             student.Department = update.Department;
 
             Context.SaveChanges();
+        }
+
+        public bool CheckEmail(string _email)
+        {
+            bool verify = true;
+            if (Context.Students.Any(u => u.StudentEmail == _email.Trim()))
+            {
+                verify = false;
+            }
+            else
+            {
+                verify = true;
+            }
+            return verify;
         }
     }
     public class StudentDetails

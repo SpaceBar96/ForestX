@@ -47,7 +47,7 @@ namespace LoginModule.Logic
         {
             bool LoginStatus = false;
             LoginStatus = sessionStatus;
-            HttpCookie userName = HttpContext.Current.Request.Cookies["FSUserName"];
+            HttpCookie userName = HttpContext.Current.Request.Cookies["UserName"];
 
             if (LoginCookie != null)
             {

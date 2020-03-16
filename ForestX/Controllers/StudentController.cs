@@ -64,10 +64,11 @@ namespace ForestX.Controllers
 
         public JsonResult SaveDataInDatabase(Student model)
         {
-            string user = Request.Cookies["FSUserName"].Value;
+            StudentRepo stdRepo = new StudentRepo();
+            string user = Request.Cookies["UserName"].Value;
             var result = false;
 
-            if (model.StudentID == Guid.Empty)
+            if (stdRepo.CheckEmail(model.StudentEmail))
             {
                 studentRepo.Save(model);
                 result = true;
@@ -75,7 +76,6 @@ namespace ForestX.Controllers
             else
             {
                 Student studentDetails = studentRepo.GetStudent(model.StudentID);
-
                 if (model.StudentName == null)
                     model.StudentName = studentDetails.StudentName;
                 if (model.StudentEmail == null)
@@ -94,7 +94,7 @@ namespace ForestX.Controllers
 
         public JsonResult DeleteStudentRecord(Guid StudentID)
         {
-            string user = Request.Cookies["FSUserName"].Value;
+            string user = Request.Cookies["UserName"].Value;
             bool result = false;
             Student studentDetails = studentRepo.GetStudent(StudentID);
             if (studentDetails != null)

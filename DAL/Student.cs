@@ -11,14 +11,11 @@ namespace DAL
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Student
     {
         public System.Guid StudentID { get; set; }
         public string StudentName { get; set; }
-        [Required]
-        [EmailAddress]
         public string StudentEmail { get; set; }
         public string Course { get; set; }
         public string Department { get; set; }

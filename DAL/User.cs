@@ -34,18 +34,15 @@ namespace DAL
 
     public class RegisterModel
     {
-        public System.Guid UserID { get; set; }
+        public Guid UserID { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
-        [EmailAddress]
         public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-        //[Required]
         public Nullable<bool> IsActive { get; set; }
-        //[Required]
     }
 }

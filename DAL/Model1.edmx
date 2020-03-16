@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ForestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ForestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Menu">
           <Key>
             <PropertyRef Name="MenuID" />
@@ -83,45 +83,11 @@
             <End Role="MenuAccess" EntitySet="MenuAccess" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ForestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
-          <NavigationProperty Name="MenuAccesses" Relationship="ForestModel.FK_MenuAccess_User" FromRole="User" ToRole="MenuAccess" />
-        </EntityType>
-        <EntityContainer Name="ForestEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <EntitySet Name="Students" EntityType="ForestModel.Student" />
-          <EntitySet Name="Menus" EntityType="ForestModel.Menu" />
-          <EntitySet Name="MenuAccesses" EntityType="ForestModel.MenuAccess" />
-          <AssociationSet Name="FK_MenuAccess_Menu" Association="ForestModel.FK_MenuAccess_Menu">
-            <End Role="Menu" EntitySet="Menus" />
-            <End Role="MenuAccess" EntitySet="MenuAccesses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MenuAccess_User" Association="ForestModel.FK_MenuAccess_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="MenuAccess" EntitySet="MenuAccesses" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="Student">
-          <Key>
-            <PropertyRef Name="StudentID" />
-          </Key>
-          <Property Name="StudentID" Type="Guid" Nullable="false" />
-          <Property Name="StudentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StudentEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Course" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Department" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Menu">
           <Key>
             <PropertyRef Name="MenuID" />
@@ -132,7 +98,7 @@
           <Property Name="View" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
-          <NavigationProperty Name="MenuAccesses" Relationship="ForestModel.FK_MenuAccess_Menu" FromRole="Menu" ToRole="MenuAccess" />
+          <NavigationProperty Name="MenuAccesses" Relationship="Self.FK_MenuAccess_Menu" FromRole="Menu" ToRole="MenuAccess" />
         </EntityType>
         <EntityType Name="MenuAccess">
           <Key>
@@ -142,12 +108,33 @@
           <Property Name="MenuID" Type="Guid" />
           <Property Name="UserID" Type="Guid" />
           <Property Name="IsActive" Type="Boolean" />
-          <NavigationProperty Name="Menu" Relationship="ForestModel.FK_MenuAccess_Menu" FromRole="MenuAccess" ToRole="Menu" />
-          <NavigationProperty Name="User" Relationship="ForestModel.FK_MenuAccess_User" FromRole="MenuAccess" ToRole="User" />
+          <NavigationProperty Name="Menu" Relationship="Self.FK_MenuAccess_Menu" FromRole="MenuAccess" ToRole="Menu" />
+          <NavigationProperty Name="User" Relationship="Self.FK_MenuAccess_User" FromRole="MenuAccess" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="Guid" Nullable="false" />
+          <Property Name="StudentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StudentEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Course" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Department" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="MenuAccesses" Relationship="Self.FK_MenuAccess_User" FromRole="User" ToRole="MenuAccess" />
         </EntityType>
         <Association Name="FK_MenuAccess_Menu">
-          <End Type="ForestModel.Menu" Role="Menu" Multiplicity="0..1" />
-          <End Type="ForestModel.MenuAccess" Role="MenuAccess" Multiplicity="*" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+          <End Role="MenuAccess" Type="Self.MenuAccess" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Menu">
               <PropertyRef Name="MenuID" />
@@ -158,8 +145,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MenuAccess_User">
-          <End Type="ForestModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="ForestModel.MenuAccess" Role="MenuAccess" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="MenuAccess" Type="Self.MenuAccess" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserID" />
@@ -169,12 +156,59 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="ForestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Menus" EntityType="Self.Menu" />
+          <EntitySet Name="MenuAccesses" EntityType="Self.MenuAccess" />
+          <EntitySet Name="Students" EntityType="Self.Student" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_MenuAccess_Menu" Association="Self.FK_MenuAccess_Menu">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="MenuAccess" EntitySet="MenuAccesses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenuAccess_User" Association="Self.FK_MenuAccess_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="MenuAccess" EntitySet="MenuAccesses" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ForestModelStoreContainer" CdmEntityContainer="ForestEntities">
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="ForestModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="View" ColumnName="View" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenuAccesses">
+            <EntityTypeMapping TypeName="ForestModel.MenuAccess">
+              <MappingFragment StoreEntitySet="MenuAccess">
+                <ScalarProperty Name="AccessID" ColumnName="AccessID" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="ForestModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="StudentEmail" ColumnName="StudentEmail" />
+                <ScalarProperty Name="Course" ColumnName="Course" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ForestModel.User">
               <MappingFragment StoreEntitySet="User">
@@ -183,39 +217,6 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Students">
-            <EntityTypeMapping TypeName="ForestModel.Student">
-              <MappingFragment StoreEntitySet="Student">
-                <ScalarProperty Name="Department" ColumnName="Department" />
-                <ScalarProperty Name="Course" ColumnName="Course" />
-                <ScalarProperty Name="StudentEmail" ColumnName="StudentEmail" />
-                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
-                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Menus">
-            <EntityTypeMapping TypeName="ForestModel.Menu">
-              <MappingFragment StoreEntitySet="Menu">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="View" ColumnName="View" />
-                <ScalarProperty Name="Controller" ColumnName="Controller" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MenuAccesses">
-            <EntityTypeMapping TypeName="ForestModel.MenuAccess">
-              <MappingFragment StoreEntitySet="MenuAccess">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-                <ScalarProperty Name="AccessID" ColumnName="AccessID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
