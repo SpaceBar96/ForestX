@@ -2494,6 +2494,10 @@
       <Project>{F8D3C9FC-75E1-4F9B-A16F-4F01C0C7C2A6}</Project>
       <Name>EmailSender</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{2261495B-C555-403B-87D7-3245836D18A7}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoginModule\LoginModule.csproj">
       <Project>{73DF57D2-A75C-493A-8790-B3B7653B4499}</Project>
       <Name>LoginModule</Name>

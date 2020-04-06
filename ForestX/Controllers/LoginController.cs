@@ -1,6 +1,7 @@
 ﻿using DAL;
 using DAL.Repo;
 using EmailSender;
+using Logger;
 using LoginModule.Logic;
 using LoginModule.Model;
 using System;
@@ -38,7 +39,7 @@ namespace ForestX.Controllers
                 if (dtls.Verify)
                 {
                     HttpCookie UserName = new HttpCookie("UserName");
-                    HttpCookie LoginCookie = new HttpCookie("LoginCookie");
+                    HttpCookie LoginCookie = new HttpCookie("LoginCookie");`
                     LoginCookie.Value = "true";
                     LoginCookie.Expires = DateTime.Now.AddMinutes(10);
                     UserName.Value = dtls.UserName.ToString();
@@ -47,7 +48,7 @@ namespace ForestX.Controllers
                     Response.Cookies.Add(UserName);
                     Response.Cookies.Add(LoginCookie);
 
-                    return RedirectToAction("List", "Student");
+                    return RedirectToAction("List", "Student");                   
                 }
                 else
                 {
@@ -78,7 +79,7 @@ namespace ForestX.Controllers
                     user.SaveAtLogin(model);
                     EmailBuilder.BuildEmailTemplateToNewUser(model.UserID);
                     string msg = "An account activation request has been sent to your email";
-                    return RedirectToAction("Login", "Login", new { msg });
+                    return RedirectToAction("CreateUser", "Login", new { msg });
                 }
                 else
                 {
