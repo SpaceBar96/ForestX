@@ -39,7 +39,7 @@ namespace ForestX.Controllers
                 if (dtls.Verify)
                 {
                     HttpCookie UserName = new HttpCookie("UserName");
-                    HttpCookie LoginCookie = new HttpCookie("LoginCookie");`
+                    HttpCookie LoginCookie = new HttpCookie("LoginCookie");
                     LoginCookie.Value = "true";
                     LoginCookie.Expires = DateTime.Now.AddMinutes(10);
                     UserName.Value = dtls.UserName.ToString();
